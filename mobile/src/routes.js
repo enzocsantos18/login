@@ -8,7 +8,7 @@ import Register from './pages/Register'
 
 const Routes = () => {
   const Stack = createStackNavigator();
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   return (
     <NavigationContainer>
       <Stack.Navigator>

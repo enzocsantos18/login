@@ -1,19 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
-
+import api from '../../services/api'
 // import { Container } from './styles';
 
 const Login = () => {
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+
+  async function handleLogin(){
+    const response = await api.post('sessions', {
+      email, password
+    })
+
+    console.log("Response: ", response.data)
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-      <TextInput style={styles.input} placeholder="Login"></TextInput>
-      <TextInput style={styles.input} placeholder="Senha" type="password"></TextInput>
+      <TextInput value={email} onChangeText={value => setEmail(value)} style={styles.input} placeholder="Login"></TextInput>
+      <TextInput style={styles.input} value={password} onChangeText={value => setPassword(value)} placeholder="Senha" type="password"></TextInput>
       <Text style={{
         padding: 10,
         textAlign: 'right',
       }}>Cadastrar-se</Text>
-      <TouchableHighlight style={styles.button}>
+      <TouchableHighlight onPress={handleLogin} style={styles.button}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableHighlight>
     </View>
