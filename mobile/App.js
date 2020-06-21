@@ -4,10 +4,18 @@ import Login from './src/pages/Login'
 import Home from './src/pages/Home'
 import Routes from './src/routes'
 import Register from './src/pages/Register'
-
+import {Provider} from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
+import {store, persistor} from './src/store';
 export default function App() {
   return (
-    <Routes></Routes>
+    
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+
+      <Routes></Routes>
+    </PersistGate>
+    </Provider>
    
   );
 }

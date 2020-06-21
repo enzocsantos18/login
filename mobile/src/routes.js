@@ -8,24 +8,31 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import Register from './pages/Register'
 
+import {useSelector} from 'react-redux'
+
+
 const Routes = () => {
+  const store = useSelector(state => state)
+
   const Stack = createStackNavigator();
 
-  const [loggedIn, setLoggedIn] = useState(false);
-  useEffect(() => {
-    const verifyToken = async () => {
-      const tokenExists = await AsyncStorage.getItem("token")
-      if(tokenExists){
-        setLoggedIn(true)
-      }
-    }
-    verifyToken()
-  }, [])
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // useEffect(() => {
+  //   const verifyToken = async () => {
+  //     const tokenExists = await AsyncStorage.getItem("token")
+  //     if(tokenExists){
+  //       setLoggedIn(true)
+  //     }
+  //   }
+  //   verifyToken()
+  // }, [])
+  console.log("teste", store.token)
+
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      {loggedIn ? (
+      {store.token ? (
           <>
             <Stack.Screen name="Home" component={Home} />
           </>

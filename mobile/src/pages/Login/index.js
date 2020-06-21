@@ -3,13 +3,15 @@ import { View, Text, TextInput, TouchableHighlight, StyleSheet, AsyncStorage} fr
 import api from '../../services/api'
 import { useNavigation } from '@react-navigation/native';
 // import { Container } from './styles';
-
+import {useSelector, useDispatch} from 'react-redux'
 const Login = () => {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const navigation = useNavigation();
 
+  const store = useSelector(state => state)
+  const dispatch = useDispatch();
   async function handleLogin(){
   
 
@@ -25,6 +27,7 @@ const Login = () => {
         await AsyncStorage.setItem("token", token)
       }
 
+      dispatch({type: 'ADD_TOKEN', token})
       // navigation.navigate("Home")
     }catch(err){
       alert("Insira os dados corretamente")
