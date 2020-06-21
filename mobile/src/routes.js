@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {AsyncStorage} from 'react-native';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -8,11 +10,22 @@ import Register from './pages/Register'
 
 const Routes = () => {
   const Stack = createStackNavigator();
-  const isLoggedIn = false;
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    const verifyToken = async () => {
+      const tokenExists = await AsyncStorage.getItem("token")
+      if(tokenExists){
+        setLoggedIn(true)
+      }
+    }
+    verifyToken()
+  }, [])
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      {isLoggedIn ? (
+      {loggedIn ? (
           <>
             <Stack.Screen name="Home" component={Home} />
           </>

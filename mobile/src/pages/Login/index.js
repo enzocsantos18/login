@@ -1,20 +1,38 @@
 import React, {useState} from 'react';
-import { View, Text, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableHighlight, StyleSheet, AsyncStorage} from 'react-native';
 import api from '../../services/api'
+import { useNavigation } from '@react-navigation/native';
 // import { Container } from './styles';
 
 const Login = () => {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-
+  const navigation = useNavigation();
 
   async function handleLogin(){
-    const response = await api.post('sessions', {
-      email, password
-    })
+  
 
-    console.log("Response: ", response.data)
+    try{
+      const response = await api.post('sessions', {
+        email, password
+      })
+
+      const {token} = response.data; 
+      console.log(token)
+
+      if(token){
+        await AsyncStorage.setItem("token", token)
+      }
+
+      // navigation.navigate("Home")
+    }catch(err){
+      alert("Insira os dados corretamente")
+      
+    }
+
+
+    // console.log("Response: ", response.data.token)
   }
 
   return (
